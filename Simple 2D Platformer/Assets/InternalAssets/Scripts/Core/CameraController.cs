@@ -1,17 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+namespace RimuruDev.Core
 {
-    public Transform player;
-
-    private void Update()
+    public sealed class CameraController : MonoBehaviour
     {
-        transform.position = new Vector3(
-                                 player.transform.position.x,
-                                 player.transform.position.y,
-                                 transform.position.z);
-    }
+        public GameDataContainer dataContainer;
 
+        private void Awake()
+        {
+            if (dataContainer == null)
+                dataContainer = GameObject.FindObjectOfType<GameDataContainer>();
+        }
+
+        private void Update() => CameraMotion();
+
+        private void CameraMotion() =>
+            transform.position = new Vector3(dataContainer.transform.position.x, dataContainer.transform.position.y, transform.position.z);
+    }
 }
