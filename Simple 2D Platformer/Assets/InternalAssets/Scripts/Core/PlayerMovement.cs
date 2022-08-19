@@ -1,50 +1,48 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+namespace RimuruDev.Core
 {
-    public Rigidbody2D rb2D;
-    public float jumpForce = 2f;
-    public float moveSpeed = 2;
-
-    public SpriteRenderer spriteRenderer;
-    public Animator anim;
-
-    private void Update()
+    public sealed class PlayerMovement : MonoBehaviour
     {
-        var dirX = Input.GetAxisRaw("Horizontal");
-        rb2D.velocity = new Vector2(dirX * moveSpeed, rb2D.velocity.y);
+        public GameDataContainer dataContainer;
+        private AnimationController animationController;
+        private PlayerInputHandler playerInputHandler;
 
-        if (Input.GetButtonDown("Jump"))
+        private void Awake()
         {
-            rb2D.velocity = new Vector2(rb2D.velocity.x, jumpForce);
-        }
+            if (dataContainer == null)
+                dataContainer = GameObject.FindObjectOfType<GameDataContainer>();
 
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            spriteRenderer.flipX = true;
-
-        }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            spriteRenderer.flipX = false;
+            playerInputHandler = new PlayerInputHandler();
+            animationController = new AnimationController();
         }
 
-        if (dirX > 0f)
+        private void Update()
         {
-            anim.SetBool("running", true);
-            spriteRenderer.flipX = false;
+            playerInputHandler.MotionX(dataContainer.playerRigidbody2D, playerInputHandler.GetHorizontalInput(), dataContainer.motionSpeed);
+
+            playerInputHandler.Jump(dataContainer.playerRigidbody2D, dataContainer.jumpForce);
+
+            PlayerFlipController();
+
+            UpdateAnimations();
         }
-        else if (dirX < 0f)
+
+        private void UpdateAnimations()
         {
-            anim.SetBool("running", true);
-            spriteRenderer.flipX = true;
+            float directionX = playerInputHandler.GetHorizontalInput();
+
+            if (directionX > 0f || directionX < 0f)
+                animationController.Running("running", dataContainer.playerAnimator, true);
+            else
+                animationController.Running("running", dataContainer.playerAnimator, false);
         }
-        else
+
+        private void PlayerFlipController()
         {
-            anim.SetBool("running", false);
-            //spriteRenderer.flipX = true;
+            if (playerInputHandler.GetHorizontalInput() < 0f) animationController.FlipX(dataContainer.playerSprite, true);
+
+            if (playerInputHandler.GetHorizontalInput() > 0f) animationController.FlipX(dataContainer.playerSprite, false);
         }
     }
 }
