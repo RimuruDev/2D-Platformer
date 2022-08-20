@@ -30,12 +30,21 @@ namespace RimuruDev.Core
 
         private void UpdateAnimations()
         {
+            AnimationStates animationStates;
+
             float directionX = playerInputHandler.GetHorizontalInput();
 
             if (directionX > 0f || directionX < 0f)
-                animationController.Running("running", dataContainer.playerAnimator, true);
+                animationStates = AnimationStates.Running;
             else
-                animationController.Running("running", dataContainer.playerAnimator, false);
+                animationStates = AnimationStates.Idle;
+
+            if (dataContainer.playerRigidbody2D.velocity.y > 0.1f)
+                animationStates = AnimationStates.Jumping;
+            else if (dataContainer.playerRigidbody2D.velocity.y < -0.1f)
+                animationStates = AnimationStates.Falling;
+
+            dataContainer.playerAnimator.SetInteger(Tag.AnimationState, (int)animationStates);
         }
 
         private void PlayerFlipController()
