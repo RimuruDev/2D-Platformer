@@ -11,8 +11,11 @@ namespace RimuruDev.Core
 
         public void Jump(Rigidbody2D rigidbody2D, float jumpForce, bool state)
         {
-            if (Input.GetButtonDown("Jump") &&state)
+            if (Input.GetButtonDown("Jump") && state)
+            {
+                GameDataContainer.instance.jumpEffect.Play();
                 rigidbody2D.velocity = new(rigidbody2D.velocity.x, jumpForce);
+            }
         }
 
         public float GetHorizontalInput() => Input.GetAxisRaw("Horizontal");

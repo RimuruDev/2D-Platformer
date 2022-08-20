@@ -5,6 +5,14 @@ using UnityEngine.UI;
 
 public sealed class GameDataContainer : MonoBehaviour
 {
+    public static GameDataContainer instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
+
     [Header("Player Conponents and settings")]
     public Transform player;
     public BoxCollider2D playerBoxCollider2D;
@@ -19,4 +27,5 @@ public sealed class GameDataContainer : MonoBehaviour
     [Header("UI")]
     public Text scoreText;
     public int score;
+    public AudioSource jumpEffect;
 }

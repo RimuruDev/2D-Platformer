@@ -40,7 +40,9 @@ namespace RimuruDev.Core
                 animationStates = AnimationStates.Idle;
 
             if (dataContainer.playerRigidbody2D.velocity.y > 0.1f)
+            {
                 animationStates = AnimationStates.Jumping;
+            }
             else if (dataContainer.playerRigidbody2D.velocity.y < -0.1f)
                 animationStates = AnimationStates.Falling;
 
