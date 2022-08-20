@@ -15,6 +15,6 @@ namespace RimuruDev.Core
         private void Update() => CameraMotion();
 
         private void CameraMotion() =>
-            transform.position = new Vector3(dataContainer.transform.position.x, dataContainer.transform.position.y, transform.position.z);
+            transform.position = new Vector3(dataContainer.player.transform.position.x, dataContainer.player.transform.position.y, transform.position.z);
     }
 }
