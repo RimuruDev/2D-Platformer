@@ -5,6 +5,7 @@
         Idle,
         Running,
         Jumping,
-        Falling
+        Falling,
+        Death
     }
 }

@@ -21,7 +21,7 @@ namespace RimuruDev.Core
         {
             playerInputHandler.MotionX(dataContainer.playerRigidbody2D, playerInputHandler.GetHorizontalInput(), dataContainer.motionSpeed);
 
-            playerInputHandler.Jump(dataContainer.playerRigidbody2D, dataContainer.jumpForce);
+            playerInputHandler.Jump(dataContainer.playerRigidbody2D, dataContainer.jumpForce, IsGrounded());
 
             PlayerFlipController();
 
@@ -46,6 +46,9 @@ namespace RimuruDev.Core
 
             dataContainer.playerAnimator.SetInteger(Tag.AnimationState, (int)animationStates);
         }
+
+        private bool IsGrounded() =>
+            Physics2D.BoxCast(dataContainer.playerBoxCollider2D.bounds.center, dataContainer.playerBoxCollider2D.bounds.size, 0f, Vector2.down, 0.1f, dataContainer.jumpableGrounded);
 
         private void PlayerFlipController()
         {

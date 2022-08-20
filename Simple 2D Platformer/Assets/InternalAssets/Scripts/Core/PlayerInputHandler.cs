@@ -9,9 +9,9 @@ namespace RimuruDev.Core
             rigidbody2D.velocity = new(horizontaiInput * motionSpeed, rigidbody2D.velocity.y);
         }
 
-        public void Jump(Rigidbody2D rigidbody2D, float jumpForce)
+        public void Jump(Rigidbody2D rigidbody2D, float jumpForce, bool state)
         {
-            if (Input.GetButtonDown("Jump"))
+            if (Input.GetButtonDown("Jump") &&state)
                 rigidbody2D.velocity = new(rigidbody2D.velocity.x, jumpForce);
         }
 
